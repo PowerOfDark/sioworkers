@@ -34,10 +34,12 @@ def _patch_elf_loader(path):
 
     path = os.path.abspath(path)
     loader = os.path.join(path, 'lib', 'ld-linux.so.2')
+    loader64 = os.path.join(path, 'lib64', 'ld-linux-x86-64.so.2')
     if not os.path.exists(loader):
         logger.info("Not patching sandbox: %s", path)
         return False
     rpath = '%s:%s' % (os.path.join(path, 'lib'), os.path.join(path, 'usr', 'lib'))
+    rpath64 = '%s:%s' % (os.path.join(path, 'lib64'), os.path.join(path, 'usr', 'lib64'))
 
     blacklist_file = os.path.join(path, '.elf_patcher_blacklist')
     blacklist = set()
@@ -74,8 +76,10 @@ def _patch_elf_loader(path):
                 continue
 
             with open(p, 'rb') as f:
-                if f.read(4) != b'\x7fELF':
+                header = f.read(5)
+                if header[:4] != b'\x7fELF':
                     continue
+                is_64bit = header[4] == b'\x02'
             logger.info("Patching ELF loader of %s", p)
             os.rename(p, pext)
 
@@ -84,7 +88,7 @@ def _patch_elf_loader(path):
                     '#!/bin/sh\n'
                     'exec %(loader)s --library-path %(rpath)s '
                     '--inhibit-rpath %(original)s %(original)s "$@"\n'
-                    % {'loader': loader, 'original': pext, 'rpath': rpath}
+                    % {'loader': loader64 if is_64bit else loader, 'original': pext, 'rpath': rpath64 if is_64bit else loader}
                 )
                 mode = os.stat(pext).st_mode
                 os.fchmod(f.fileno(), mode)
