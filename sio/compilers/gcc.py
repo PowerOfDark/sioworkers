@@ -23,7 +23,7 @@ class CPPCompiler(CStyleCompiler):
         return obj
     
     @classmethod
-    def gcc_8_3_0_cpp17(cls, arch='amd64'):
+    def gcc_8_3_0_cpp17(cls, arch='i386'):
         obj = cls('gcc.8_3_0-%s' % arch)
         obj.compiler = 'g++'
         obj.options = ['-std=c++17', '-static', '-O2', '-s', '-lm']
@@ -42,16 +42,20 @@ def run_gplusplus4_8_2_cpp11(environ):
     return CPPCompiler.gcc_4_8_2_cpp11().compile(environ)
 
 
-def run_gplusplus8_3_0_cpp17(environ):
-    return CPPCompiler.gcc_8_3_0_cpp17().compile(environ)
+def run_gplusplus8_3_0_cpp17_i386(environ):
+    return CPPCompiler.gcc_8_3_0_cpp17('i386').compile(environ)
+
+def run_gplusplus8_3_0_cpp17_amd64(environ):
+    return CPPCompiler.gcc_8_3_0_cpp17('amd64').compile(environ)
 
 
 def run_gplusplus_default(environ):
-    return run_gplusplus8_3_0_cpp17(environ)
+    return run_gplusplus8_3_0_cpp17_i386(environ)
 
 
 run_c_default = run_gcc_default
 run_c_gcc4_8_2_c99 = run_gcc4_8_2_c99
 run_cpp_default = run_gplusplus_default
 run_cpp_gcc4_8_2_cpp11 = run_gplusplus4_8_2_cpp11
-run_cpp_gcc8_3_0_cpp17 = run_gplusplus8_3_0_cpp17
+run_cpp_gcc8_3_0_cpp17 = run_cpp_gcc8_3_0_cpp17_i386 = run_gplusplus8_3_0_cpp17_i386
+run_cpp_gcc8_3_0_cpp17_amd64 = run_gplusplus8_3_0_cpp17_amd64

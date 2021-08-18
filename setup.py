@@ -73,10 +73,11 @@ setup(
             # Sandboxed compilers:
             'gcc4_8_2_c99 = sio.compilers.gcc:run_c_gcc4_8_2_c99',
             'g++4_8_2_cpp11 = sio.compilers.gcc:run_cpp_gcc4_8_2_cpp11',
-            'g++8_3_0_cpp17 = sio.compilers.gcc:run_cpp_gcc8_3_0_cpp17',
+            'g++8_3_0_cpp17 = sio.compilers.gcc:run_cpp_gcc8_3_0_cpp17_i386',
+            'g++8_3_0_cpp17_amd64 = sio.compilers.gcc:run_cpp_gcc8_3_0_cpp17_amd64',
             'fpc2_6_2 = sio.compilers.fpc:run_pas_fpc2_6_2',
             'java1_8 = sio.compilers.java:run_java1_8',
-            'python3_7 = sio.compilers.python:run_python3_7'
+            'python3_7 = sio.compilers.python:run_python3_7',
 
             # Non-sandboxed compilers
             'system-gcc = sio.compilers.system_gcc:run_gcc',
