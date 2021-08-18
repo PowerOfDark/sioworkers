@@ -33,7 +33,7 @@ else:
 
 setup(
     name = "sioworkers",
-    version = '1.4.1',
+    version = '1.5.0',
     author = "SIO2 Project Team",
     author_email = 'sio2@sio2project.mimuw.edu.pl',
     description = "Programming contest judging infrastructure",
@@ -75,6 +75,7 @@ setup(
             'g++4_8_2_cpp11 = sio.compilers.gcc:run_cpp_gcc4_8_2_cpp11',
             'fpc2_6_2 = sio.compilers.fpc:run_pas_fpc2_6_2',
             'java1_8 = sio.compilers.java:run_java1_8',
+            'python3_7 = sio.compilers.python:run_python3_7'
 
             # Non-sandboxed compilers
             'system-gcc = sio.compilers.system_gcc:run_gcc',
@@ -93,6 +94,7 @@ setup(
             'default-cpp = sio.compilers.gcc:run_cpp_default',
             'default-pas = sio.compilers.fpc:run_pas_default',
             'default-java = sio.compilers.java:run_java_default',
+            'default-py = sio.compilers.python:run_py_default',
 
             ####################################
             # Deprecated, should be removed after 01.01.2021
@@ -105,6 +107,9 @@ setup(
             'pas = sio.compilers.fpc:run_pas_default',
 
             'java = sio.compilers.java:run_java_default',
+
+            'python = sio.compilers.python:run_py_default',
+            'py = sio.compilers.python:run_py_default',
 
             ####################################
             # Deprecated, should be removed after 01.01.2021

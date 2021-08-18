@@ -9,6 +9,7 @@ import json
 import tempfile
 import shutil
 import threading
+import errno
 import six
 
 logger = logging.getLogger(__name__)
@@ -95,6 +96,18 @@ def rmtree(path):
             fn(path)
 
     shutil.rmtree(path, onerror=remove_readonly)
+
+
+def mkdir(name, permissions=0o700):
+    try:
+        os.makedirs(name, permissions)
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            raise
+
+
+def is_exe(path):
+    return os.path.isfile(path) and os.access(path, os.X_OK)
 
 
 threadlocal_dir = threading.local()
@@ -193,10 +206,13 @@ def decode_fields(fields):
 
 
 def null_ctx_manager():
-    def dummy():
-        yield
+    class Dummy(object):
+        def __enter__(self):
+            return self
 
-    return contextmanager(dummy)()
+        def __exit__(self, *args):
+            pass
+    return Dummy()
 
 
 # Copied and stripped from oioioi/base/utils/__init__.py
