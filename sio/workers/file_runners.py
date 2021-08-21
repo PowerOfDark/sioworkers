@@ -175,8 +175,8 @@ class Python3(LanguageModeWrapper):
         self.exec_info = environ['exec_info']
 
     def __call__(self, file, args, **kwargs):
-        python = ['/usr/bin/%s' % self.python]
-
+        python = ['/usr/bin/%s' % self.python, '-B']
+	# -B to skip writing bytecode
         prog_dir = tempcwd('prog')
         inner_dir = '/tmp'
         main_file =  self.exec_info.get('main_file', '__main__.py')

@@ -92,7 +92,7 @@ class PythonCompiler(Compiler):
             if renv['return_code']:
                 return renv
 
-        compileall = python + ['-m', 'compileall',
+        compileall = python + ['-OO', '-m', 'compileall',
                                self.rcwd(source_dir),
                               ]
         renv = self._execute(executor, compileall)
